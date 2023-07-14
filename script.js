@@ -72,3 +72,22 @@ tabContainer.addEventListener("click", function (e) {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add("operations__content--active");
 });
+
+function hover(element) {
+  if (element.target.classList.contains("nav__link")) {
+    const link = element.target;
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+    const logo = link.closest(".nav").querySelector(".nav__logo");
+
+    siblings.forEach((sib) => {
+      if (sib != link) {
+        sib.style.opacity = this;
+      }
+    });
+    logo.style.opacity = this;
+  }
+}
+const nav = document.querySelector(".nav");
+
+nav.addEventListener("mouseover", hover.bind(0.5));
+nav.addEventListener("mouseout", hover.bind(1));
