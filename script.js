@@ -1,6 +1,5 @@
 "use strict";
 
-///////////////////////////////////////
 // Modal window
 
 const modal = document.querySelector(".modal");
@@ -29,3 +28,24 @@ document.addEventListener("keydown", function (e) {
     closeModal();
   }
 });
+
+///////////////////////////////////////
+
+// Coordinates
+
+const btnScroll = document.querySelector(".btn--scroll-to");
+const section1 = document.querySelector("#section--1");
+
+btnScroll.addEventListener("click", () => {
+  section1.scrollIntoView({
+    behavior: "smooth",
+  });
+
+  // window.scrollTo({ // устарел
+  //   left: section1.getBoundingClientRect().left + window.scrollX,
+  //   top: section1.getBoundingClientRect().top + window.scrollY,
+  //   behavior: 'smooth',
+  // });
+});
+
+////////////////////////////////////////
