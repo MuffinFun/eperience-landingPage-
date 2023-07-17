@@ -113,10 +113,11 @@ function observHead(enteries) {
     enteries[0].intersectionRatio >= 0.9 ||
     enteries[0].intersectionRatio == 0
   ) {
-    nav.classList.remove("sticky");
     if (enteries[0].intersectionRatio == 0)
       nav.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
+    nav.classList.remove("sticky");
   } else {
+    nav.style.backgroundColor = "rgba(255, 255, 255, 0)";
     nav.classList.add("sticky");
   }
 }
@@ -126,3 +127,22 @@ const optHead = {
 };
 const observerHeader = new IntersectionObserver(observHead, optHead);
 observerHeader.observe(header);
+
+// Всплытие секций
+
+const sections = document.querySelectorAll(".section");
+const sectionsObserv = new IntersectionObserver(revealSect, {
+  threshold: 0.15,
+});
+
+function revealSect(enteries, observe) {
+  if (enteries[0].isIntersecting) {
+    enteries[0].target.classList.remove("section--hidden");
+    observe.unobserve(enteries[0].target);
+  }
+}
+
+sections.forEach((sect) => {
+  sectionsObserv.observe(sect);
+  sect.classList.add("section--hidden");
+});
