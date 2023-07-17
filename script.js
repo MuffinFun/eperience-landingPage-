@@ -73,6 +73,8 @@ tabContainer.addEventListener("click", function (e) {
     .classList.add("operations__content--active");
 });
 
+// transparent nav menu
+
 function hover(element) {
   if (element.target.classList.contains("nav__link")) {
     const link = element.target;
@@ -91,3 +93,36 @@ const nav = document.querySelector(".nav");
 
 nav.addEventListener("mouseover", hover.bind(0.5));
 nav.addEventListener("mouseout", hover.bind(1));
+
+// showing nav menu after certain coordinates
+
+// old
+
+// window.addEventListener("scroll", () => {
+//   if (window.scrollY > coord.top) {
+//     document.querySelector(".nav").classList.add("sticky");
+//   } else {
+//     document.querySelector(".nav").classList.remove("sticky");
+//   }
+// });
+
+const header = document.querySelector(".header");
+
+function observHead(enteries) {
+  if (
+    enteries[0].intersectionRatio >= 0.9 ||
+    enteries[0].intersectionRatio == 0
+  ) {
+    nav.classList.remove("sticky");
+    if (enteries[0].intersectionRatio == 0)
+      nav.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
+  } else {
+    nav.classList.add("sticky");
+  }
+}
+const optHead = {
+  threshold: [0.9, 0],
+  // rootMargin: '+/-20px', // optional properties
+};
+const observerHeader = new IntersectionObserver(observHead, optHead);
+observerHeader.observe(header);
