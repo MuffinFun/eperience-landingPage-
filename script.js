@@ -6,6 +6,7 @@ const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
+const allImg = document.querySelectorAll("img[data-src]");
 
 const openModal = function () {
   modal.classList.remove("hidden");
@@ -30,10 +31,26 @@ document.addEventListener("keydown", function (e) {
 });
 
 // Modal window /|\
+const btnScroll = document.querySelector(".btn--scroll-to");
+
+const section1 = document.querySelector("#section--1");
+
+const tabs = document.querySelectorAll(".operations__tab");
+const tabContainer = document.querySelector(".operations__tab-container");
+const tabsContent = document.querySelectorAll(".operations__content");
+
+const header = document.querySelector(".header");
+
+const allSlides = document.querySelectorAll(".slide");
+const slider = document.querySelector(".slider");
+const btnLeft = document.querySelector(".slider__btn--left");
+const btnRight = document.querySelector(".slider__btn--right");
+const dotContainer = document.querySelector(".dots");
+
+let currentSlide = 0;
+const slidesCount = allSlides.length - 1;
 
 //Scroll by btn and nav-menu
-const btnScroll = document.querySelector(".btn--scroll-to");
-const section1 = document.querySelector("#section--1");
 
 btnScroll.addEventListener("click", () => {
   section1.scrollIntoView({
@@ -50,10 +67,6 @@ document.querySelector(".nav__links").addEventListener("click", function (e) {
 });
 
 //Tab work
-
-const tabs = document.querySelectorAll(".operations__tab");
-const tabContainer = document.querySelector(".operations__tab-container");
-const tabsContent = document.querySelectorAll(".operations__content");
 
 tabContainer.addEventListener("click", function (e) {
   e.preventDefault();
@@ -96,18 +109,6 @@ nav.addEventListener("mouseout", hover.bind(1));
 
 // showing nav menu after certain coordinates
 
-// old
-
-// window.addEventListener("scroll", () => {
-//   if (window.scrollY > coord.top) {
-//     document.querySelector(".nav").classList.add("sticky");
-//   } else {
-//     document.querySelector(".nav").classList.remove("sticky");
-//   }
-// });
-
-const header = document.querySelector(".header");
-
 function observHead(enteries) {
   if (
     enteries[0].intersectionRatio >= 0.9 ||
@@ -149,8 +150,6 @@ sections.forEach((sect) => {
 
 // lazy install
 
-const allImg = document.querySelectorAll("img[data-src]");
-
 function loadImg(enteries, observer) {
   if (!enteries[0].isIntersecting) return;
   enteries[0].target.src = enteries[0].target.dataset.src;
@@ -168,15 +167,6 @@ allImg.forEach((img) => {
 
 // slider
 
-const allSlides = document.querySelectorAll(".slide");
-const slider = document.querySelector(".slider");
-const btnLeft = document.querySelector(".slider__btn--left");
-const btnRight = document.querySelector(".slider__btn--right");
-const dotContainer = document.querySelector(".dots");
-
-let currentSlide = 0;
-const slidesCount = allSlides.length - 1;
-
 btnRight.addEventListener("click", nextSlide);
 btnLeft.addEventListener("click", previousSlide);
 
@@ -191,33 +181,13 @@ function moveSlides(slide) {
   });
 }
 
-function nextSlide() {
-  if (currentSlide === slidesCount) {
-    currentSlide = 0;
-  } else {
-    currentSlide++;
-  }
-  moveSlides(currentSlide);
-  activateDot(currentSlide);
-}
-
-function previousSlide() {
-  if (currentSlide === 0) {
-    currentSlide = slidesCount;
-  } else {
-    currentSlide--;
-  }
-  moveSlides(currentSlide);
-  activateDot(currentSlide);
-}
-
 function createDots() {
   allSlides.forEach((_, i) => {
     dotContainer.insertAdjacentHTML(
       "beforeend",
       `
-    <button class="dots__dot" data-slide="${i}"></button>
-    `
+      <button class="dots__dot" data-slide="${i}"></button>
+      `
     );
   });
 }
@@ -238,6 +208,26 @@ dotContainer.addEventListener("click", (e) => {
     activateDot(slide);
   }
 });
+
+function nextSlide() {
+  if (currentSlide === slidesCount) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  moveSlides(currentSlide);
+  activateDot(currentSlide);
+}
+
+function previousSlide() {
+  if (currentSlide === 0) {
+    currentSlide = slidesCount;
+  } else {
+    currentSlide--;
+  }
+  moveSlides(currentSlide);
+  activateDot(currentSlide);
+}
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight") nextSlide();
