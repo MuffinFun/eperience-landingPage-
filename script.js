@@ -135,14 +135,31 @@ const sectionsObserv = new IntersectionObserver(revealSect, {
   threshold: 0.15,
 });
 
-function revealSect(enteries, observe) {
+function revealSect(enteries, observer) {
   if (enteries[0].isIntersecting) {
     enteries[0].target.classList.remove("section--hidden");
-    observe.unobserve(enteries[0].target);
+    observer.unobserve(enteries[0].target);
   }
 }
 
 sections.forEach((sect) => {
   sectionsObserv.observe(sect);
   sect.classList.add("section--hidden");
+});
+
+const allImg = document.querySelectorAll("img[data-src]");
+
+function loadImg(enteries, observer) {
+  if(!enteries[0].isIntersecting) return;
+  enteries[0].target.src = enteries[0].target.dataset.src;
+  enteries[0].target.addEventListener("load", () => {
+    enteries[0].target.classList.remove("lazy-img");
+    observer.unobserve(enteries[0].target);
+  });
+}
+
+const imgObserve = new IntersectionObserver(loadImg, { threshold: 0.15 });
+
+allImg.forEach((img) => {
+  imgObserve.observe(img);
 });
